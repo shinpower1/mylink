@@ -8,10 +8,10 @@ const profileData = {
   avatarUrl: "https://avatars.githubusercontent.com/u/327406319?v=4",
   role: "Full-Stack Developer",
   status: "커피챗 & 협업 기회 환영 ☕",
-  headline: "문제를 해결하는 코드, 가치를 만드는 서비스를 만듭니다.",
-  bio: `복잡한 문제를 직관적이고 견고한 솔루션으로 풀어내는 것을 즐깁니다.
-사용자 경험(UX)과 서비스 안정성, 성능 최적화에 깊은 관심을 두고 있으며,
-현대적인 웹 기술을 활용하여 지속 가능하고 확장성 있는 서비스를 구축합니다.`,
+  headline: "기술로 가치를 증명하고, 지속 가능한 코드를 만듭니다.",
+  bio: `새로운 기술을 탐구하고 서비스의 문제를 해결하는 과정에 몰입합니다.
+사용자에게는 직관적이고 매끄러운 경험을, 동료에게는 신뢰할 수 있고 읽기 쉬운 코드를 제공하는 개발자를 지향합니다.
+Next.js와 TypeScript 기반의 모던 웹 생태계에서 유연하고 안정적인 서비스를 구축합니다.`,
   techStack: [
     "TypeScript",
     "React",
