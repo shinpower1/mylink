@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "신채규 | 개발자 프로필",
-  description: "문제를 해결하고 사용자 경험을 고민하는 풀스택 개발자의 프로필 페이지입니다.",
+  title: "신채규 | Full-Stack Software Engineer",
+  description: "복잡한 문제를 견고한 아키텍처와 엔지니어링으로 해결하는 소프트웨어 엔지니어 신채규의 공식 프로필입니다.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

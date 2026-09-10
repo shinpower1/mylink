@@ -6,12 +6,14 @@ const profileData = {
   englishName: "Chae Gyu Shin",
   githubUsername: "shinpower1",
   avatarUrl: "https://avatars.githubusercontent.com/u/327406319?v=4",
-  role: "Full-Stack Developer",
-  status: "커피챗 & 협업 기회 환영 ☕",
-  headline: "기술로 가치를 증명하고, 지속 가능한 코드를 만듭니다.",
-  bio: `새로운 기술을 탐구하고 서비스의 문제를 해결하는 과정에 몰입합니다.
-사용자에게는 직관적이고 매끄러운 경험을, 동료에게는 신뢰할 수 있고 읽기 쉬운 코드를 제공하는 개발자를 지향합니다.
-Next.js와 TypeScript 기반의 모던 웹 생태계에서 유연하고 안정적인 서비스를 구축합니다.`,
+  role: "Full-Stack Software Engineer",
+  status: "오픈소스 & 협업 기회 환영 🚀",
+  headline: "복잡한 비즈니스 문제를 견고한 아키텍처와 엔지니어링으로 해결합니다.",
+  bio: `사용자 중심의 가치 창출과 확장 가능한 소프트웨어 아키텍처에 집중하는 엔지니어입니다.
+
+• Frontend: React 19 & Next.js 16 기반의 고성능 렌더링 최적화 및 직관적인 UX 설계
+• Backend: 안정적인 API 아키텍처 설계와 견고한 데이터 모델링
+• Engineering Mindset: 유지보수하기 쉬운 클린 코드와 지속 가능한 개발 문화를 지향합니다.`,
   techStack: [
     "TypeScript",
     "React",

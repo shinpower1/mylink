@@ -1,6 +1,6 @@
 # 🔗 MyLink (`mylink`)
 
-> **문제를 해결하는 코드, 가치를 만드는 개발자** — 신채규의 개인 프로필 & 링크인바이오(Link-in-bio) 서비스
+> **복잡한 비즈니스 문제를 견고한 아키텍처와 엔지니어링으로 해결합니다.** — Full-Stack Software Engineer 신채규의 프로필 & 링크인바이오 서비스
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.3.4-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.2.8-blue?style=flat-square&logo=react)](https://react.dev/)
@@ -12,9 +12,9 @@
 
 ## 📌 소개 (About)
 
-**MyLink**는 풀스택 개발자의 프로필, 한 줄 슬로건, 상세 소개글(About Me), 핵심 기술 스택, 주요 작업물 및 소셜 링크를 한곳에서 직관적이고 감각적으로 제공하는 웹 서비스입니다.
+**MyLink**는 사용자 중심의 가치 창출과 지속 가능한 소프트웨어 아키텍처를 지향하는 소프트웨어 엔지니어 신채규의 공식 프로필 & 링크인바이오(Link-in-bio) 서비스입니다.
 
-모바일 및 데스크톱 환경 모두에 최적화된 반응형 카드 레이아웃과 감각적인 디자인을 지원하며, 손쉽게 개인 정보와 링크를 커스터마이징할 수 있습니다.
+Next.js 16과 React 19, Tailwind CSS v4를 기반으로 초고속 렌더링 성능과 세련된 모던 UI를 구현하였으며, 모바일과 데스크톱 환경 모두에 최적화된 반응형 카드 레이아웃을 제공합니다.
 
 ---
 
