@@ -1,56 +1,79 @@
-import React from "react";
+"use client";
 
-// 프로필 데이터 정의 - 실제 GitHub(shinpower1) 정보와 완벽하게 연동되었습니다.
+import React, { useState } from "react";
+
+// 프로필 데이터 정의
 const profileData = {
   name: "신채규",
   englishName: "Chae Gyu Shin",
   githubUsername: "shinpower1",
+  email: "contact@example.com",
   avatarUrl: "https://avatars.githubusercontent.com/u/327406319?v=4",
   role: "Full-Stack Software Engineer",
   status: "오픈소스 & 협업 기회 환영 🚀",
   headline: "복잡한 비즈니스 문제를 견고한 아키텍처와 엔지니어링으로 해결합니다.",
-  bio: `사용자 중심의 가치 창출과 확장 가능한 소프트웨어 아키텍처에 집중하는 엔지니어입니다.
-
-• Frontend: React 19 & Next.js 16 기반의 고성능 렌더링 최적화 및 직관적인 UX 설계
-• Backend: 안정적인 API 아키텍처 설계와 견고한 데이터 모델링
-• Engineering Mindset: 유지보수하기 쉬운 클린 코드와 지속 가능한 개발 문화를 지향합니다.`,
+  bioSections: [
+    {
+      label: "Frontend",
+      color: "bg-[#67E8F9]",
+      desc: "React 19 & Next.js 16 기반의 고성능 렌더링 최적화 및 직관적인 UX 설계",
+    },
+    {
+      label: "Backend",
+      color: "bg-[#86EFAC]",
+      desc: "안정적인 API 아키텍처 설계와 견고한 데이터 모델링",
+    },
+    {
+      label: "Mindset",
+      color: "bg-[#FDBA74]",
+      desc: "유지보수하기 쉬운 클린 코드와 지속 가능한 개발 문화를 지향합니다.",
+    },
+  ],
   techStack: [
-    "TypeScript",
-    "React",
-    "Next.js",
-    "Tailwind CSS",
-    "Node.js",
-    "PostgreSQL",
-    "Git",
+    { name: "TypeScript", color: "bg-[#93C5FD]" },
+    { name: "React", color: "bg-[#67E8F9]" },
+    { name: "Next.js", color: "bg-[#E2E8F0]" },
+    { name: "Tailwind CSS", color: "bg-[#5EEAD4]" },
+    { name: "Node.js", color: "bg-[#86EFAC]" },
+    { name: "PostgreSQL", color: "bg-[#DDD6FE]" },
+    { name: "Git", color: "bg-[#FED7AA]" },
   ],
   links: [
     {
-      title: "GitHub",
-      description: "github.com/shinpower1 · 개인 프로젝트 및 코드 저장소",
+      title: "GitHub Profile",
+      description: "github.com/shinpower1 · 개인 프로젝트 및 오픈소스 기여",
       url: "https://github.com/shinpower1",
       icon: "github",
-      highlight: true,
+      badge: "HIGHLIGHT ★",
+      cardColor: "bg-[#FFE600]",
+      badgeColor: "bg-black text-white",
     },
     {
       title: "MyLink Project",
-      description: "Next.js & Tailwind CSS로 만든 나만의 링크인바이오",
+      description: "Next.js 16 & Tailwind로 제작한 인터랙티브 링크인바이오",
       url: "https://github.com/shinpower1/mylink",
       icon: "portfolio",
-      highlight: false,
+      badge: "SOURCE ⚡",
+      cardColor: "bg-[#A7F3D0]",
+      badgeColor: "bg-white text-black",
     },
     {
       title: "Tech Blog",
-      description: "개발 지식과 문제 해결 과정을 기록하는 기술 블로그",
+      description: "개발 지식과 아키텍처 고민 과정을 기록하는 기술 블로그",
       url: "https://velog.io",
       icon: "blog",
-      highlight: false,
+      badge: "STORIES 📖",
+      cardColor: "bg-[#BAE6FD]",
+      badgeColor: "bg-white text-black",
     },
     {
-      title: "Email Me",
-      description: "프로젝트 협업 및 커피챗 문의 (언제든 환영합니다)",
+      title: "Email Inquiry",
+      description: "프로젝트 협업, 기술 자문 및 커피챗 문의 (언제든 환영합니다)",
       url: "mailto:contact@example.com",
       icon: "email",
-      highlight: false,
+      badge: "LET'S TALK ✉️",
+      cardColor: "bg-[#FFD1DC]",
+      badgeColor: "bg-black text-white",
     },
   ],
 };
@@ -59,12 +82,7 @@ function Icon({ name }: { name: string }) {
   switch (name) {
     case "github":
       return (
-        <svg
-          className="w-5 h-5"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
+        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path
             fillRule="evenodd"
             d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
@@ -74,13 +92,7 @@ function Icon({ name }: { name: string }) {
       );
     case "blog":
       return (
-        <svg
-          className="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-        >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -90,34 +102,18 @@ function Icon({ name }: { name: string }) {
       );
     case "portfolio":
       return (
-        <svg
-          className="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-        >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M4 6a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6z"
           />
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M10 9l5 3-5 3V9z"
-          />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M10 9l5 3-5 3V9z" />
         </svg>
       );
     case "email":
       return (
-        <svg
-          className="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-        >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -127,189 +123,258 @@ function Icon({ name }: { name: string }) {
       );
     default:
       return (
-        <svg
-          className="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101"
-          />
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M14.828 14.828a4 4 0 015.656 0l4 4a4 4 0 01-5.656 5.656l-1.102-1.101"
-          />
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M14.828 14.828a4 4 0 015.656 0l4 4a4 4 0 01-5.656 5.656l-1.102-1.101" />
         </svg>
       );
   }
 }
 
 export default function Home() {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(profileData.email);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#0a0c10] dark:text-zinc-100 flex flex-col items-center justify-between px-4 py-12 md:py-16 selection:bg-zinc-900 selection:text-white dark:selection:bg-zinc-100 dark:selection:text-zinc-900 font-sans">
-      <main className="w-full max-w-xl mx-auto flex flex-col items-center gap-8">
-        {/* Profile Card Header */}
-        <section className="flex flex-col items-center text-center w-full">
-          {/* Avatar with Gradient & GitHub Photo */}
-          <div className="relative group mb-4">
-            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-gradient-to-tr from-zinc-800 via-zinc-700 to-zinc-600 p-[2px] shadow-xl shadow-zinc-900/10 dark:shadow-black/50 overflow-hidden">
-              <img
-                src={profileData.avatarUrl}
-                alt={profileData.name}
-                className="w-full h-full object-cover rounded-[22px]"
-              />
+    <div className="min-h-screen text-black flex flex-col items-center justify-between px-4 py-8 sm:py-12 selection:bg-[#FFE600] selection:text-black">
+      {/* Top Retro Sticker Ticker */}
+      <aside aria-label="상단 알림 배너" className="w-full max-w-xl mb-6 overflow-hidden rounded-xl border-2 border-black bg-[#FFE600] shadow-[3px_3px_0px_#000] px-3 py-1.5 flex items-center justify-between font-mono text-xs font-black tracking-wider">
+        <div className="flex items-center gap-2">
+          <span className="inline-block w-2.5 h-2.5 rounded-full bg-red-500 animate-ping" />
+          <span>PORTFOLIO // 2026 EDITION</span>
+        </div>
+        <div className="hidden sm:flex items-center gap-2">
+          <span className="bg-black text-white px-2 py-0.5 rounded text-[10px]">VERIFIED DEV</span>
+          <span>✦ NEXT.JS 16 & REACT 19</span>
+        </div>
+      </aside>
+
+      <main className="w-full max-w-xl mx-auto flex flex-col items-center gap-6">
+        {/* Main Profile Card (Window Style) */}
+        <section className="w-full bg-white rounded-2xl border-3 border-black shadow-[6px_6px_0px_#000] overflow-hidden">
+          {/* Retro Window Title Bar */}
+          <div className="bg-[#A78BFA] border-b-3 border-black px-4 py-2.5 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="w-3.5 h-3.5 rounded-full bg-[#FF5F56] border-2 border-black inline-block" />
+              <span className="w-3.5 h-3.5 rounded-full bg-[#FFBD2E] border-2 border-black inline-block" />
+              <span className="w-3.5 h-3.5 rounded-full bg-[#27C93F] border-2 border-black inline-block" />
+              <span className="font-mono text-xs font-black tracking-wider uppercase ml-1 text-black">
+                DEV_PROFILE.EXE
+              </span>
             </div>
-            <span
-              className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500 ring-4 ring-white dark:ring-[#0a0c10] text-[10px] text-white font-bold"
-              title="활동 중"
-            >
-              ✓
+            <span className="text-[11px] font-mono font-bold bg-white text-black px-2.5 py-0.5 border-2 border-black rounded shadow-[2px_2px_0px_#000]">
+              LIVE
             </span>
           </div>
 
-          {/* Status Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 mb-3 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/40">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            {profileData.status}
-          </div>
+          <div className="p-6 sm:p-8 flex flex-col items-center text-center">
+            {/* Avatar with hard border and offset shadow */}
+            <div className="relative mb-5">
+              <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl border-3 border-black bg-[#FFE600] shadow-[5px_5px_0px_#000] overflow-hidden">
+                <img
+                  src={profileData.avatarUrl}
+                  alt={profileData.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <span
+                className="absolute -bottom-2.5 -right-2.5 bg-[#70EE9C] text-black font-black text-xs px-2.5 py-1 rounded-lg border-2 border-black shadow-[2px_2px_0px_#000] rotate-[-3deg] select-none"
+                title="온라인 상태"
+              >
+                ✓ ONLINE
+              </span>
+            </div>
 
-          {/* Name & Role */}
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
-            {profileData.name}
-            <span className="ml-2 text-sm font-normal text-zinc-500 dark:text-zinc-400">
-              ({profileData.englishName})
-            </span>
-          </h1>
+            {/* Status Sticker Badge */}
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 mb-3 rounded-lg text-xs font-black bg-[#FEF08A] text-black border-2 border-black shadow-[2.5px_2.5px_0px_#000] rotate-[-1deg]">
+              <span>{profileData.status}</span>
+            </div>
 
-          {/* GitHub Handle Link & Role */}
-          <div className="mt-1 flex items-center justify-center gap-2">
-            <span className="text-sm font-semibold tracking-wide uppercase text-zinc-600 dark:text-zinc-400">
-              {profileData.role}
-            </span>
-            <span className="text-zinc-300 dark:text-zinc-700">•</span>
-            <a
-              href={`https://github.com/${profileData.githubUsername}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs font-mono text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
-            >
-              <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
-              </svg>
-              @{profileData.githubUsername}
-            </a>
-          </div>
+            {/* Name & English Name */}
+            <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-black flex flex-wrap items-center justify-center gap-2">
+              <span>{profileData.name}</span>
+              <span className="text-base sm:text-lg font-bold text-zinc-700 bg-[#E2E8F0] px-2.5 py-0.5 rounded-md border-2 border-black shadow-[2px_2px_0px_#000]">
+                {profileData.englishName}
+              </span>
+            </h1>
 
-          {/* Headline */}
-          <div className="mt-4 px-4 py-2 rounded-xl bg-zinc-100 dark:bg-zinc-900/60 border border-zinc-200/80 dark:border-zinc-800">
-            <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200 italic">
+            {/* Role & GitHub Badge */}
+            <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
+              <span className="bg-[#67E8F9] text-black font-extrabold text-xs sm:text-sm px-3 py-1 rounded-md border-2 border-black shadow-[2px_2px_0px_#000]">
+                ⚡ {profileData.role}
+              </span>
+              <a
+                href={`https://github.com/${profileData.githubUsername}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 bg-black text-white font-mono font-bold text-xs px-3 py-1 rounded-md border-2 border-black shadow-[2px_2px_0px_#000] hover:bg-[#FFE600] hover:text-black transition-colors"
+              >
+                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                  <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+                </svg>
+                @{profileData.githubUsername}
+              </a>
+            </div>
+
+            {/* Slogan Speech Bubble */}
+            <div className="mt-5 w-full bg-[#FFFBEB] border-2 border-black p-3.5 rounded-xl shadow-[3px_3px_0px_#000] text-sm font-black text-black">
               &ldquo;{profileData.headline}&rdquo;
-            </p>
-          </div>
-
-          {/* Detailed Bio (소개글) */}
-          <div className="mt-4 w-full bg-white dark:bg-[#15181e] p-5 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 shadow-sm text-center sm:text-left">
-            <div className="flex items-center gap-2 mb-2 text-xs font-semibold text-zinc-500 uppercase tracking-wider">
-              <span className="w-2 h-2 rounded-full bg-blue-500 inline-block"></span>
-              About Me
             </div>
-            <p className="text-sm sm:text-base leading-relaxed text-zinc-600 dark:text-zinc-300 whitespace-pre-line">
-              {profileData.bio}
-            </p>
+          </div>
+        </section>
+
+        {/* About Me Bento Card */}
+        <section className="w-full bg-white rounded-2xl border-3 border-black shadow-[6px_6px_0px_#000] p-5 sm:p-6">
+          <div className="flex items-center justify-between mb-3 border-b-2 border-black pb-2">
+            <div className="inline-flex items-center gap-2 bg-[#FF5376] text-white font-black text-xs px-2.5 py-1 rounded-md border-2 border-black shadow-[2px_2px_0px_#000] uppercase rotate-[-1deg]">
+              <span>★ ABOUT ME</span>
+            </div>
+            <span className="font-mono text-xs font-bold text-zinc-500">PHILOSOPHY</span>
           </div>
 
-          {/* Tech Stack Pills */}
-          <div className="mt-5 flex flex-wrap justify-center gap-1.5 max-w-md">
+          <p className="text-sm font-bold text-zinc-800 mb-4 leading-relaxed">
+            사용자 중심의 가치 창출과 확장 가능한 소프트웨어 아키텍처에 집중하는 엔지니어입니다.
+          </p>
+
+          <div className="flex flex-col gap-2.5">
+            {profileData.bioSections.map((sec) => (
+              <div
+                key={sec.label}
+                className="flex items-start gap-2.5 p-2.5 rounded-xl border-2 border-black bg-[#F8FAFC] shadow-[2px_2px_0px_#000]"
+              >
+                <span
+                  className={`${sec.color} text-black font-black text-[11px] px-2 py-0.5 rounded border border-black uppercase tracking-wider shrink-0 mt-0.5`}
+                >
+                  {sec.label}
+                </span>
+                <span className="text-xs sm:text-sm font-semibold text-zinc-800 leading-snug">
+                  {sec.desc}
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Tech Stack Section */}
+        <section className="w-full bg-white rounded-2xl border-3 border-black shadow-[6px_6px_0px_#000] p-5 sm:p-6">
+          <div className="flex items-center justify-between mb-4 border-b-2 border-black pb-2">
+            <span className="bg-[#FED7AA] text-black font-black text-xs px-2.5 py-1 rounded-md border-2 border-black shadow-[2px_2px_0px_#000] uppercase">
+              ⚡ TECH STACK
+            </span>
+            <span className="font-mono text-xs font-bold text-zinc-500">7 CORE SKILLS</span>
+          </div>
+
+          <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
             {profileData.techStack.map((tech) => (
               <span
-                key={tech}
-                className="px-2.5 py-1 text-xs font-medium rounded-lg bg-zinc-200/70 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-300 border border-zinc-300/40 dark:border-zinc-700/50"
+                key={tech.name}
+                className={`${tech.color} text-black font-black text-xs sm:text-sm px-3.5 py-1.5 rounded-xl border-2 border-black shadow-[3px_3px_0px_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_#000] transition-all cursor-default select-none`}
               >
-                {tech}
+                {tech.name}
               </span>
             ))}
           </div>
         </section>
 
-        {/* Links Section */}
-        <section className="w-full flex flex-col gap-3.5">
-          <h2 className="sr-only">주요 링크 모음</h2>
-          {profileData.links.map((link) => (
-            <a
-              key={link.title}
-              href={link.url}
-              target={link.url.startsWith("http") ? "_blank" : undefined}
-              rel={link.url.startsWith("http") ? "noopener noreferrer" : undefined}
-              className={`group relative flex items-center justify-between p-4 rounded-2xl transition-all duration-200 border ${
-                link.highlight
-                  ? "bg-zinc-900 text-white border-zinc-800 hover:bg-zinc-800 dark:bg-white dark:text-zinc-950 dark:border-zinc-200 dark:hover:bg-zinc-100 shadow-md hover:shadow-lg"
-                  : "bg-white text-zinc-900 border-zinc-200/90 hover:border-zinc-400 hover:bg-zinc-50 dark:bg-[#15181e] dark:text-zinc-100 dark:border-zinc-800/90 dark:hover:border-zinc-700 dark:hover:bg-[#1a1e26] shadow-sm hover:shadow"
-              }`}
-            >
-              <div className="flex items-center gap-3.5">
-                <div
-                  className={`p-2.5 rounded-xl ${
-                    link.highlight
-                      ? "bg-white/10 text-white dark:bg-black/10 dark:text-zinc-950"
-                      : "bg-zinc-100 text-zinc-700 dark:bg-zinc-800/80 dark:text-zinc-300 group-hover:scale-105 transition-transform"
-                  }`}
-                >
-                  <Icon name={link.icon} />
-                </div>
-                <div className="flex flex-col text-left">
-                  <span className="font-semibold text-sm sm:text-base tracking-tight">
-                    {link.title}
-                  </span>
-                  <span
-                    className={`text-xs ${
-                      link.highlight
-                        ? "text-zinc-300 dark:text-zinc-600"
-                        : "text-zinc-500 dark:text-zinc-400"
-                    }`}
-                  >
-                    {link.description}
-                  </span>
-                </div>
-              </div>
+        {/* Links Bento Section */}
+        <section className="w-full flex flex-col gap-4">
+          <div className="flex items-center justify-between px-1">
+            <h2 className="font-black text-lg tracking-tight uppercase flex items-center gap-2">
+              <span>EXPLORE LINKS</span>
+              <span className="text-xs font-mono font-bold bg-[#FFE600] px-2 py-0.5 rounded border border-black shadow-[1.5px_1.5px_0px_#000]">
+                {profileData.links.length}
+              </span>
+            </h2>
+            <span className="font-mono text-xs font-bold text-zinc-600">CLICK TO VISIT ↗</span>
+          </div>
 
-              <div
-                className={`text-zinc-400 group-hover:translate-x-1 transition-transform ${
-                  link.highlight
-                    ? "text-zinc-300 dark:text-zinc-700"
-                    : "dark:text-zinc-500"
-                }`}
+          <div className="flex flex-col gap-3.5">
+            {profileData.links.map((link) => (
+              <a
+                key={link.title}
+                href={link.url}
+                target={link.url.startsWith("http") ? "_blank" : undefined}
+                rel={link.url.startsWith("http") ? "noopener noreferrer" : undefined}
+                className={`group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl border-3 border-black ${link.cardColor} shadow-[5px_5px_0px_#000] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[7px_7px_0px_#000] active:translate-x-1 active:translate-y-1 active:shadow-[2px_2px_0px_#000] transition-all duration-150`}
               >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </div>
-            </a>
-          ))}
+                <div className="flex items-center gap-3.5 sm:gap-4">
+                  {/* Icon Box */}
+                  <div className="p-3 rounded-xl border-2 border-black bg-white text-black shadow-[2px_2px_0px_#000] group-hover:scale-105 transition-transform">
+                    <Icon name={link.icon} />
+                  </div>
+
+                  {/* Text Details */}
+                  <div className="flex flex-col text-left">
+                    <div className="flex items-center gap-2">
+                      <span className="font-black text-base sm:text-lg text-black tracking-tight">
+                        {link.title}
+                      </span>
+                      <span
+                        className={`text-[10px] font-black px-1.5 py-0.5 rounded border border-black uppercase tracking-wider ${link.badgeColor}`}
+                      >
+                        {link.badge}
+                      </span>
+                    </div>
+                    <span className="text-xs sm:text-sm font-bold text-zinc-800 line-clamp-1 mt-0.5">
+                      {link.description}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Arrow Action Button */}
+                <div className="w-9 h-9 rounded-xl border-2 border-black bg-white flex items-center justify-center text-black shadow-[2px_2px_0px_#000] group-hover:bg-black group-hover:text-white transition-colors shrink-0 ml-2">
+                  <svg
+                    className="w-5 h-5 group-hover:translate-x-0.5 transition-transform"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        {/* Quick Action: Copy Email */}
+        <section className="w-full bg-[#FFFBEB] rounded-2xl border-3 border-black shadow-[5px_5px_0px_#000] p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <span className="text-xl">📫</span>
+            <div className="text-left">
+              <p className="text-xs font-black text-zinc-500 uppercase">DIRECT EMAIL</p>
+              <p className="font-mono text-sm font-black text-black">{profileData.email}</p>
+            </div>
+          </div>
+          <button
+            onClick={handleCopyEmail}
+            className="w-full sm:w-auto bg-black text-white hover:bg-[#FFE600] hover:text-black font-black text-xs px-4 py-2.5 rounded-xl border-2 border-black shadow-[3px_3px_0px_#000] hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-[4px_4px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0px_#000] transition-all cursor-pointer"
+          >
+            {copied ? "복사 완료! 🎉" : "이메일 복사하기 📋"}
+          </button>
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="mt-12 text-center text-xs text-zinc-400 dark:text-zinc-600">
-        <p>© {new Date().getFullYear()} {profileData.name} (@{profileData.githubUsername}). All rights reserved.</p>
-        <p className="mt-1">
-          Powered by Next.js &amp; Tailwind CSS
+      {/* Retro Neobrutalist Footer */}
+      <footer className="mt-12 w-full max-w-xl text-center flex flex-col items-center gap-2">
+        <div className="inline-block bg-white border-2 border-black px-4 py-2 rounded-xl shadow-[3px_3px_0px_#000] font-mono text-xs font-black text-black">
+          © {new Date().getFullYear()} {profileData.name} (@{profileData.githubUsername}) · ALL RIGHTS RESERVED
+        </div>
+        <p className="text-[11px] font-bold text-zinc-600">
+          BUILT WITH <span className="underline decoration-black decoration-2">NEXT.JS 16</span> &amp; <span className="underline decoration-black decoration-2">TAILWIND CSS 4</span>
         </p>
       </footer>
     </div>
   );
 }
+
