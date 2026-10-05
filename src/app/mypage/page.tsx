@@ -4,7 +4,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { useEditorStore } from "@/store/useEditorStore";
 import { LinkCardItem, LinkListEmpty } from "@/components/ui/link-card-item";
-import { ArrowLeft, Plus, Trash2, ExternalLink, Sparkles } from "lucide-react";
+import { ArrowLeft, Plus, Trash2, ExternalLink, Sparkles, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function MyPage() {
@@ -15,6 +15,8 @@ export default function MyPage() {
 
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
+  const [titleError, setTitleError] = useState<string | null>(null);
+  const [urlError, setUrlError] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -28,6 +30,14 @@ export default function MyPage() {
     setTimeout(() => setToastMessage(null), 2400);
   };
 
+  const validateUrl = (value: string): boolean => {
+    const trimmed = value.trim();
+    if (!trimmed) return false;
+    // URL 형식 정규표현식 검증
+    const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?(\?.*)?(#.*)?$/i;
+    return urlPattern.test(trimmed);
+  };
+
   const handleCopyLink = (targetUrl: string, id: string, targetTitle: string) => {
     navigator.clipboard.writeText(targetUrl);
     setCopiedId(id);
@@ -38,15 +48,31 @@ export default function MyPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    let hasError = false;
+
+    // 1. 제목 검증
     if (!title.trim()) {
-      alert("링크 제목을 입력해 주세요.");
-      return;
+      setTitleError("링크 제목을 입력해 주세요.");
+      hasError = true;
+    } else if (title.trim().length > 50) {
+      setTitleError("링크 제목은 50자 이내로 입력해 주세요.");
+      hasError = true;
+    } else {
+      setTitleError(null);
     }
 
+    // 2. URL 검증
     if (!url.trim()) {
-      alert("주소를 입력해 주세요.");
-      return;
+      setUrlError("링크 주소(URL)를 입력해 주세요.");
+      hasError = true;
+    } else if (!validateUrl(url)) {
+      setUrlError("올바른 URL 형식(예: https://example.com)을 입력해 주세요.");
+      hasError = true;
+    } else {
+      setUrlError(null);
     }
+
+    if (hasError) return;
 
     let formattedUrl = url.trim();
     if (!formattedUrl.startsWith("http://") && !formattedUrl.startsWith("https://")) {
@@ -66,6 +92,8 @@ export default function MyPage() {
 
     setTitle("");
     setUrl("");
+    setTitleError(null);
+    setUrlError(null);
     showToast("새 링크가 성공적으로 추가되었습니다! 🎉");
   };
 
@@ -142,32 +170,65 @@ export default function MyPage() {
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             {/* 1) 제목 입력 칸 */}
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="link-title" className="text-xs font-semibold text-[#4E5968]">
-                링크 제목
-              </label>
+              <div className="flex items-center justify-between">
+                <label htmlFor="link-title" className="text-xs font-semibold text-[#4E5968]">
+                  링크 제목 <span className="text-rose-500">*</span>
+                </label>
+                <span className="text-[11px] text-[#8B95A1]">
+                  {title.length}/50
+                </span>
+              </div>
               <input
                 id="link-title"
                 type="text"
                 placeholder="링크 제목 입력"
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="w-full bg-[#F9FAFB] focus:bg-white text-[#191F28] placeholder-[#8B95A1] text-sm font-medium px-4 py-3 rounded-2xl border border-black/[0.06] focus:outline-none focus:ring-2 focus:ring-[#5B5FC7]/30 focus:border-[#5B5FC7] transition-all"
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                  if (titleError) setTitleError(null);
+                }}
+                className={cn(
+                  "w-full bg-[#F9FAFB] focus:bg-white text-[#191F28] placeholder-[#8B95A1] text-sm font-medium px-4 py-3 rounded-2xl border transition-all",
+                  titleError
+                    ? "border-rose-400 focus:ring-2 focus:ring-rose-400/30 focus:border-rose-500"
+                    : "border-black/[0.06] focus:ring-2 focus:ring-[#5B5FC7]/30 focus:border-[#5B5FC7]"
+                )}
               />
+              {titleError && (
+                <p className="text-xs font-semibold text-rose-500 flex items-center gap-1 mt-0.5 animate-in fade-in duration-150">
+                  <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                  <span>{titleError}</span>
+                </p>
+              )}
             </div>
 
             {/* 2) 주소 입력 칸 */}
             <div className="flex flex-col gap-1.5">
               <label htmlFor="link-url" className="text-xs font-semibold text-[#4E5968]">
-                주소 (URL)
+                주소 (URL) <span className="text-rose-500">*</span>
               </label>
               <input
                 id="link-url"
                 type="text"
                 placeholder="https://..."
                 value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                className="w-full bg-[#F9FAFB] focus:bg-white text-[#191F28] placeholder-[#8B95A1] text-sm font-medium px-4 py-3 rounded-2xl border border-black/[0.06] focus:outline-none focus:ring-2 focus:ring-[#5B5FC7]/30 focus:border-[#5B5FC7] transition-all font-mono"
+                onChange={(e) => {
+                  setUrl(e.target.value);
+                  if (urlError) setUrlError(null);
+                }}
+                className={cn(
+                  "w-full bg-[#F9FAFB] focus:bg-white text-[#191F28] placeholder-[#8B95A1] text-sm font-medium px-4 py-3 rounded-2xl border font-mono transition-all",
+                  urlError
+                    ? "border-rose-400 focus:ring-2 focus:ring-rose-400/30 focus:border-rose-500"
+                    : "border-black/[0.06] focus:ring-2 focus:ring-[#5B5FC7]/30 focus:border-[#5B5FC7]"
+                )}
               />
+              {urlError && (
+                <p className="text-xs font-semibold text-rose-500 flex items-center gap-1 mt-0.5 animate-in fade-in duration-150">
+                  <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                  <span>{urlError}</span>
+                </p>
+              )}
             </div>
 
             {/* 3) 추가 버튼 (배경색: #5B5FC7, 토스/피그마 스타일 세련된 인터랙션 버튼) */}
